@@ -42,7 +42,7 @@ i is a modifier (modifies the search to be case-insensitive).
 | replace | Returns a new String                 |
 | match   | Returns an Array of results          |
 
-**Showed in [regx.js](regx.js#1)**
+**Showed in [regx.js](regx.js#L1)**
 
 ---
 
@@ -68,7 +68,7 @@ These are the most common:
 
 The **/g** flag matches all occurrences of the pattern, rather than just the first one.
 
-Example in [regx.js](regx.js#13)
+Example in [regx.js](regx.js#L13-L14)
 
 <hr>
 
@@ -76,7 +76,7 @@ Example in [regx.js](regx.js#13)
 
 The /i flag makes a match case-insensitive. /abc/i matches "abc", "AbC", "ABC".
 
-Example in [regx.js](regx.js#4)
+Example in [regx.js](regx.js#L4)
 
 <hr>
 
@@ -118,7 +118,7 @@ const pattern = /\d/g;
 let result = text.match(pattern);
 ```
 
-Also in [regx.js](regx.js#17)
+Also in [regx.js](regx.js#L17-L18)
 
 <hr>
 
@@ -141,7 +141,7 @@ const pattern = /\w/g;
 let result = text.match(pattern);
 ```
 
-Also in [regx.js](regx.js#21)
+Also in [regx.js](regx.js#L21-L23)
 
 <hr>
 
@@ -179,456 +179,123 @@ const pattern = /10?/g;
 let result = text.match(pattern);
 ```
 
-Also in [regx.js](regx.js#)
+Also in [regx.js](regx.js#L25-L27)
 
+<hr/>
 
+## Regular Expression Assertions
 
+```js
+// Match beginning of string
+const pattern = /^W3Schools/;
 
+// Match end of string
+const pattern = /W3Schools$/;
+```
 
+**Assertions** matches **Boundaries** and **Lookarounds**:
 
+String Boundaries and Word Boundaries.
 
+Lookarounds: Lookaheads and Lookbehinds.
 
+These are the most common:
 
+| Syntax   | Name            | Description                            |
+| -------- | --------------- | -------------------------------------- |
+| ^        | String Boundary | Matches the beginning of a string      |
+| $        | String Boundary | Matches the end of string              |
+| \b       | Word Boundary   | Matches the beginning or end of a word |
+| (?=...)  | Lookahead       | Matches the subsequent string          |
+| (?<=...) | Lookbehind      | Matches the previous string            |
 
+<hr/>
 
+## RegExp ^ Metacharacter
 
+The ^ metacharacter matches the beginning of a string
 
+## Example
 
+Test if a string starts with W3Schools:
 
+```js
+const pattern = /^W3Schools/;
+let text = 'W3Schools Tutorial';
 
+let result = pattern.test(text); // true
+```
 
+returnig false..
 
+```js
+const pattern = /^W3Schools/;
+let text = 'Hello W3Schools';
 
+let result = pattern.test(text); // false
+```
 
+[regx.js](regx.js#L29-L32)
 
+---
 
+## RegExp $ Metacharacter
 
+The $ mettacharacter matches the end of a string.
 
+Test if a string ends with Coding:
 
+```js
+const pattern = /Coding$/;
+let text = 'Vibe Coding';
 
+let result = pattern.test(text); // true
+```
 
+returning false..
 
+```js
+const pattern = /Coding$/;
+let text = 'Coding is fun..';
 
+let result = pattern.test(text); // false
+```
 
+## [regx.js](regx.js#L38-L48)
 
+## JavaScript RegExp Character Classes
 
+```js
+// Match Digits
+const pattern = /[0-9];
+```
 
+**Character Classes** are characters enclosed in square brackets[].
 
+A character class matches any character from a set within brackets.
 
+These are the most common:
 
+| Class | Description                                     |
+| ----- | ----------------------------------------------- |
+| [a]   | Matches the character between the brackets      |
+| [abc] | Matches all characters between the brackets     |
+| [a-z] | Matches all characters in the range from a to z |
+| [0-9] | Matches all characters in the range from 0 to 9 |
 
+## Example [0-9]
 
+A global search for the characters "0" to "9" in a string:
 
+```js
+let text = 'More than 1000 times';
+const pattern = /[0-9]/g;
 
+let result = text.match(pattern);
+```
 
+[regx.js](regx.js#L)
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### For more info about RegExp, Visit _<ins>[W3Schools](https://w3schools.com)</ins>_
