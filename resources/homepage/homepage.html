@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> BruxaBot • Rakib Adil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="https://raw.githubusercontent.com/ntkhang03/resources-goat-bot/master/homepage/logo.png">
+<link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: hidden; }
+body {
+    font-family: "Quicksand", sans-serif;
+    min-height: 100vh;
+    color: #eaeaea;
+    background: radial-gradient(circle at top, #0b1020, #05060a);
+    transition: background 0.6s ease, color 0.6s ease;
+    position: relative;
+}
+
+/* LIGHT THEME */
+body.light {
+    color: #1a1a2e;
+    background: radial-gradient(circle at top, #f5f7ff, #e8ecff);
+}
+body.light .profile-card {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 25px 70px rgba(100, 110, 180, 0.3);
+}
+body.light .profile-card__txt,
+body.light .profile-card-loc,
+body.light .typed-bio { color: #30345e; }
+body.light #particles-canvas { opacity: 0.4; }
+
+/* ANIMATED BG BLOBS */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 200, 0.14), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(120, 80, 255, 0.14), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 110, 0.07), transparent 60%);
+    z-index: -2;
+    animation: bgMove 12s ease-in-out infinite alternate;
+}
+@keyframes bgMove {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-30px, -20px); }
+}
+
+/* PARTICLE CANVAS */
+#particles-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* TOP CONTROLS */
+.top-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+.ctrl-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    color: inherit;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease;
+}
+.ctrl-btn:hover { transform: scale(1.1) rotate(10deg); background: rgba(255,255,255,0.15); }
+body.light .ctrl-btn { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); }
+
+/* WRAPPER */
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 60px;
+}
+
+/* CARD */
+.profile-card {
+    width: 100%;
+    max-width: 850px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: transform 0.2s ease, box-shadow 0.4s ease;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.profile-card:hover {
+    box-shadow: 0 35px 90px rgba(0,0,0,0.7), 0 0 40px rgba(0,255,200,0.15);
+}
+
+/* AVATAR */
+.profile-card__img {
+    width: 160px;
+    height: 160px;
+    margin: auto;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(0,255,200,0.4);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,255,200,0.25);
+    animation: pulseRing 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+}
+@keyframes pulseRing {
+    0%, 100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(0,255,200,0.25); }
+    50%      { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 55px rgba(108,99,255,0.5); }
+}
+.profile-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* CONTENT */
+.profile-card__cnt {
+    text-align: center;
+    margin-top: -50px;
+    padding: 0 25px 40px;
+}
+.profile-card__name {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00ffc3, #6c63ff, #ff006e);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    animation: shine 4s linear infinite;
+}
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+.profile-card__txt {
+    font-size: 16px;
+    opacity: 0.88;
+    margin-bottom: 6px;
+}
+.profile-card-loc {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+/* TYPING BIO */
+.typed-bio {
+    margin-top: 18px;
+    min-height: 26px;
+    font-size: 15px;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
+}
+.typed-bio::after {
+    content: "|";
+    margin-left: 3px;
+    animation: blink 1s steps(1) infinite;
+    color: #00ffc3;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* SOCIAL */
+.profile-card-contacts {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+.social-link {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    transition: 0.35s cubic-bezier(.2,.8,.2,1.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.45);
+    position: relative;
+}
+.social-link:hover {
+    transform: translateY(-8px) scale(1.12) rotate(-6deg);
+    filter: brightness(1.2);
+}
+.social-link::before {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -32px;
+    font-size: 11px;
+    font-weight: 600;
+    color: inherit;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+}
+.social-link:hover::before { opacity: 1; transform: translateY(0); }
+.sl-fb   { background: linear-gradient(135deg, #3b5998, #0078d7); }
+.sl-msg  { background: linear-gradient(135deg, #00c6ff, #9f00cb); }
+.sl-yt   { background: linear-gradient(135deg, #ff0000, #c9184a); }
+.sl-ig   { background: linear-gradient(135deg, #405de6, #c13584, #fd1d1d); }
+.sl-gh   { background: linear-gradient(135deg, #333, #6e6e6e); }
+.sl-mail { background: linear-gradient(135deg, #d5135a, #f05924); }
+
+/* BUTTONS */
+.profile-card-ctr {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+.profile-card__button {
+    padding: 14px 32px;
+    border-radius: 999px;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s ease;
+    color: white;
+    letter-spacing: 0.3px;
+}
+.button--blue   { background: linear-gradient(135deg, #00ffc3, #3a86ff); color: #001a1f; }
+.button--orange { background: linear-gradient(135deg, #ff006e, #ffbe0b); }
+.profile-card__button:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.1);
+    box-shadow: 0 12px 30px rgba(0,255,200,0.25);
+}
+
+/* MUSIC PLAYER */
+.music-player {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: inherit;
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+body.light .music-player { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); }
+.music-player button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #00ffc3, #6c63ff);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+.music-player button:hover { transform: scale(1.1); }
+.music-info { font-size: 12px; font-weight: 600; opacity: 0.85; }
+.music-info small { display: block; opacity: 0.65; font-weight: 500; }
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .profile-card__img { width: 130px; height: 130px; }
+    .profile-card__name { font-size: 24px; }
+    .profile-card__button { width: 100%; max-width: 280px; }
+    .music-player { bottom: 15px; left: 15px; padding: 8px 12px 8px 8px; }
+    .music-info { display: none; }
+    .top-controls { top: 15px; right: 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- TOP CONTROLS -->
+<div class="top-controls">
+    <button class="ctrl-btn" id="themeToggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+</div>
+
+<!-- CARD -->
+<div class="wrapper">
+    <div class="profile-card" id="profileCard">
+
+        <div class="profile-card__img">
+            <img src="https://i.imgur.com/3f92UZc.jpeg" alt="Rakib Adil">
+        </div>
+
+        <div class="profile-card__cnt">
+            <div class="profile-card__name">Rakib Adil</div>
+            <div class="profile-card__txt">Admin Project <strong>Bruxa Bot</strong></div>
+            <div class="profile-card__txt">Moonlight Debugging • Coffee & Consistency • Silent Resolver</div>
+
+            <div class="profile-card-loc">
+                <i class="fa-solid fa-location-dot" style="color:#00ffc3;"></i>
+                <span>Chattogram, Bangladesh</span>
+            </div>
+
+            <div class="typed-bio" id="typedBio"></div>
+
+            <!-- SOCIAL -->
+            <div class="profile-card-contacts">
+                <a class="social-link sl-fb"   data-label="Facebook"  href="https://facebook.com/RAKIB.404X" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a class="social-link sl-msg"  data-label="Messenger" href="https://m.me/RAKIB.404X" target="_blank"><i class="fa-brands fa-facebook-messenger"></i></a>
+                <a class="social-link sl-yt"   data-label="YouTube"   href="https://youtube.com/@rakib_adil_69" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a class="social-link sl-ig"   data-label="Instagram" href="https://instagram.com/rakib_x_404" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a class="social-link sl-gh"   data-label="GitHub"    href="https://github.com/bruxa6t9" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a class="social-link sl-mail" data-label="Email"     href="mailto:rakibxyz011@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+
+            <div class="profile-card-ctr">
+                <button class="profile-card__button button--blue" onclick="location.href='mailto:rakibxyz011@gmail.com'">
+                    <i class="fa-solid fa-paper-plane"></i>&nbsp; Contact
+                </button>
+                <button class="profile-card__button button--orange" onclick="window.open('https://github.com/bruxa6t9','_blank')">
+                    <i class="fa-brands fa-github"></i>&nbsp; GitHub
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player">
+    <button id="musicBtn"><i class="fa-solid fa-play" id="musicIcon"></i></button>
+    <div class="music-info">
+        Ambient Vibe
+        <small>Lo-fi • Chill</small>
+    </div>
+    <audio id="audio" autoplay loop>
+        <source src="../background_music.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+/* ============ TYPING ANIMATION ============ */
+const bioTexts = [
+    "Passionate about Backend logic handler ✨",
+    "Building scalable systems with love 💻",
+    "Coffee → Code → Ship → Repeat ☕",
+    "Welcome to the Bruxa Bot homepage 👾"
+];
+const bioEl = document.getElementById('typedBio');
+let tIndex = 0, cIndex = 0, deleting = false;
+function typeLoop() {
+    const full = bioTexts[tIndex];
+    bioEl.textContent = deleting ? full.substring(0, --cIndex) : full.substring(0, ++cIndex);
+    let delay = deleting ? 35 : 70;
+    if (!deleting && cIndex === full.length) { delay = 1800; deleting = true; }
+    else if (deleting && cIndex === 0) { deleting = false; tIndex = (tIndex + 1) % bioTexts.length; delay = 400; }
+    setTimeout(typeLoop, delay);
+}
+typeLoop();
+
+/* ============ THEME TOGGLE ============ */
+const themeBtn = document.getElementById('themeToggle');
+const themeIcon = themeBtn.querySelector('i');
+themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    themeIcon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+});
+
+/* ============ 3D TILT ============ */
+const card = document.getElementById('profileCard');
+document.addEventListener('mousemove', (e) => {
+    const x = (window.innerWidth / 2 - e.clientX) / 50;
+    const y = (window.innerHeight / 2 - e.clientY) / 50;
+    card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg) translateY(-2px)`;
+});
+document.addEventListener('mouseleave', () => card.style.transform = '');
+
+/* ============ MUSIC PLAYER ============ */
+const audio = document.getElementById('audio');
+const musicBtn = document.getElementById('musicBtn');
+const musicIcon = document.getElementById('musicIcon');
+audio.volume = 0.35;
+musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play().then(() => musicIcon.className = 'fa-solid fa-pause')
+            .catch(() => alert('Please interact with the page first to play music 🎵'));
+    } else {
+        audio.pause();
+        musicIcon.className = 'fa-solid fa-play';
+    }
+}); 
+
+/* ============ PARTICLE EFFECT ============ */
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.hue = Math.random() * 60 + 160; // cyan/purple range
+    }
+    update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 100%, 65%, 0.8)`;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = `hsla(${this.hue}, 100%, 65%, 0.8)`;
+        ctx.fill();
+    }
+}
+for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+function connect() {
+    for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+            const dx = particles[a].x - particles[b].x;
+            const dy = particles[a].y - particles[b].y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 120) {
+                ctx.strokeStyle = `rgba(0, 255, 200, ${1 - dist/120})`;
+                ctx.lineWidth = 0.4;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    connect();
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
